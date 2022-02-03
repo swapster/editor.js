@@ -160,6 +160,7 @@ export default class Paste extends Module {
    */
   public async processDataTransfer(dataTransfer: DataTransfer, isDragNDrop = false): Promise<void> {
     const { Tools } = this.Editor;
+    const { sanitizer: baseSanitizeConfig } = this.config;
     const types = dataTransfer.types;
 
     /**
@@ -204,6 +205,14 @@ export default class Paste extends Module {
     }, {});
 
     const customConfig = Object.assign({}, toolsTags, Tools.getAllInlineToolsSanitizeConfig(), { br: {} });
+
+    /** If base config allows some tag with all attributes, it should be allowed here */
+    Object.keys(customConfig).forEach(key => {
+      if (baseSanitizeConfig[key] === true) {
+        customConfig[key] = true;
+      }
+    });
+
     const cleanData = clean(htmlData, customConfig);
 
     /** If there is no HTML or HTML string is equal to plain one, process it as plain text */
@@ -515,6 +524,7 @@ export default class Paste extends Module {
    */
   private processHTML(innerHTML: string): PasteData[] {
     const { Tools } = this.Editor;
+    const { sanitizer: baseSanitizeConfig } = this.config;
     const wrapper = $.make('DIV');
 
     wrapper.innerHTML = innerHTML;
@@ -551,6 +561,13 @@ export default class Paste extends Module {
           return result;
         }, {});
         const customConfig = Object.assign({}, toolTags, tool.baseSanitizeConfig);
+
+        /** If base config allows some tag with all attributes, it should be allowed here */
+        Object.keys(customConfig).forEach(key => {
+          if (baseSanitizeConfig[key] === true) {
+            customConfig[key] = true;
+          }
+        });
 
         content.innerHTML = clean(content.innerHTML, customConfig);
 
@@ -640,6 +657,7 @@ export default class Paste extends Module {
    */
   private async processInlinePaste(dataToInsert: PasteData): Promise<void> {
     const { BlockManager, Caret } = this.Editor;
+    const { sanitizer: baseSanitizeConfig } = this.config;
     const { content } = dataToInsert;
 
     const currentBlockIsDefault = BlockManager.currentBlock && BlockManager.currentBlock.tool.isDefault;
@@ -663,6 +681,13 @@ export default class Paste extends Module {
     /** If there is no pattern substitute - insert string as it is */
     if (BlockManager.currentBlock && BlockManager.currentBlock.currentInput) {
       const currentToolSanitizeConfig = BlockManager.currentBlock.tool.baseSanitizeConfig;
+
+      /** If base config allows some tag with all attributes, it should be allowed here */
+      Object.keys(currentToolSanitizeConfig).forEach(key => {
+        if (baseSanitizeConfig[key] === true) {
+          currentToolSanitizeConfig[key] = true;
+        }
+      });
 
       document.execCommand(
         'insertHTML',
