@@ -204,6 +204,7 @@ export default class Paste extends Module {
     }, {});
 
     const customConfig = Object.assign({}, toolsTags, Tools.getAllInlineToolsSanitizeConfig(), { br: {} });
+
     const cleanData = clean(htmlData, customConfig);
 
     /** If there is no HTML or HTML string is equal to plain one, process it as plain text */
