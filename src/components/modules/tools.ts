@@ -164,20 +164,12 @@ export default class Tools extends Module {
    */
   @_.cacheable
   public getAllInlineToolsSanitizeConfig(): SanitizerConfig {
-    const { sanitizer: editorSanitizeConfig } = this.config;
     const config: SanitizerConfig = {} as SanitizerConfig;
 
     Array.from(this.inlineTools.values())
       .forEach(inlineTool => {
         Object.assign(config, inlineTool.sanitizeConfig);
       });
-
-    /** If base config allows some tag with all attributes, it should be allowed here */
-    Object.keys(editorSanitizeConfig).forEach(key => {
-      if (editorSanitizeConfig[key] === true) {
-        config[key] = true;
-      }
-    });
 
     return config;
   }

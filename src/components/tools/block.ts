@@ -120,39 +120,33 @@ export default class BlockTool extends BaseTool<IBlockTool> {
    */
   @_.cacheable
   public get sanitizeConfig(): SanitizerConfig {
-    const { sanitizer: editorSanitizeConfig } = this.api.configObject;
     const toolRules = super.sanitizeConfig;
     const baseConfig = this.baseSanitizeConfig;
 
-    if (!_.isEmpty(toolRules)) {
-      const toolConfig = {} as SanitizerConfig;
+    if (_.isEmpty(toolRules)) {
+      return baseConfig;
+    }
 
-      for (const fieldName in toolRules) {
-        if (Object.prototype.hasOwnProperty.call(toolRules, fieldName)) {
-          const rule = toolRules[fieldName];
+    const toolConfig = {} as SanitizerConfig;
 
-          /**
-           * If rule is object, merge it with Inline Tools configuration
-           *
-           * Otherwise pass as it is
-           */
-          if (_.isObject(rule)) {
-            toolConfig[fieldName] = Object.assign({}, baseConfig, rule);
-          } else {
-            toolConfig[fieldName] = rule;
-          }
+    for (const fieldName in toolRules) {
+      if (Object.prototype.hasOwnProperty.call(toolRules, fieldName)) {
+        const rule = toolRules[fieldName];
+
+        /**
+         * If rule is object, merge it with Inline Tools configuration
+         *
+         * Otherwise pass as it is
+         */
+        if (_.isObject(rule)) {
+          toolConfig[fieldName] = Object.assign({}, baseConfig, rule);
+        } else {
+          toolConfig[fieldName] = rule;
         }
       }
     }
 
-    /** If base config allows some tag with all attributes, it should be allowed here */
-    Object.keys(editorSanitizeConfig).forEach(key => {
-      if (editorSanitizeConfig[key] === true) {
-        baseConfig[key] = true;
-      }
-    });
-
-    return baseConfig;
+    return toolConfig;
   }
 
   /**
@@ -160,7 +154,6 @@ export default class BlockTool extends BaseTool<IBlockTool> {
    */
   @_.cacheable
   public get baseSanitizeConfig(): SanitizerConfig {
-    const { sanitizer: editorSanitizeConfig } = this.api.configObject;
     const baseConfig = {};
 
     Array
@@ -170,13 +163,6 @@ export default class BlockTool extends BaseTool<IBlockTool> {
     Array
       .from(this.tunes.values())
       .forEach(tune => Object.assign(baseConfig, tune.sanitizeConfig));
-
-    /** If base config allows some tag with all attributes, it should be allowed here */
-    Object.keys(editorSanitizeConfig).forEach(key => {
-      if (editorSanitizeConfig[key] === true) {
-        baseConfig[key] = true;
-      }
-    });
 
     return baseConfig;
   }

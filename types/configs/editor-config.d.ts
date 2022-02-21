@@ -43,7 +43,7 @@ export interface EditorConfig {
    * Define default sanitizer configuration
    * @see {@link sanitizer}
    */
-  sanitizer?: SanitizerConfig;
+  sanitizer?: SanitizerConfig | false;
 
   /**
    * If true, toolbar won't be shown
