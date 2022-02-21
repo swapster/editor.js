@@ -187,7 +187,7 @@ export default class Core {
     };
 
     this.config.placeholder = this.config.placeholder || false;
-    this.config.sanitizer = this.config.sanitizer || {
+    this.config.sanitizer = this.config.sanitizer ?? {
       p: true,
       b: true,
       a: true,

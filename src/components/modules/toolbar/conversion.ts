@@ -184,6 +184,7 @@ export default class ConversionToolbar extends Module<ConversionToolbarNodes> {
      *
      * @type {BlockToolConstructable}
      */
+    const { sanitizer } = this.config;
     const currentBlockTool = this.Editor.BlockManager.currentBlock.tool;
     const currentBlockName = this.Editor.BlockManager.currentBlock.name;
     const savedBlock = await this.Editor.BlockManager.currentBlock.save() as SavedData;
@@ -228,10 +229,14 @@ export default class ConversionToolbar extends Module<ConversionToolbarNodes> {
     /**
      * Clean exported data with replacing sanitizer config
      */
-    const cleaned: string = clean(
-      exportData,
-      replacingTool.sanitizeConfig
-    );
+    let cleaned: string = exportData;
+
+    if (sanitizer !== false) {
+      cleaned = clean(
+        exportData,
+        replacingTool.sanitizeConfig
+      );
+    }
 
     /**
      * «import» property can be Function or String

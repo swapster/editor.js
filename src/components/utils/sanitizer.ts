@@ -44,9 +44,9 @@ import { SavedData } from '../../../types/data-formats';
  * @param sanitizeConfig — sanitize config to use or function to get config for Tool
  */
 export function sanitizeBlocks(
-  blocksData: Array<Pick<SavedData, 'data' | 'tool'>>,
+  blocksData: Array<Pick<SavedData, 'id' | 'data' | 'tool'>>,
   sanitizeConfig: SanitizerConfig | ((toolName: string) => SanitizerConfig)
-): Array<Pick<SavedData, 'data' | 'tool'>> {
+): Array<Pick<SavedData, 'id' | 'data' | 'tool'>> {
   return blocksData.map((block) => {
     const toolConfig = _.isFunction(sanitizeConfig) ? sanitizeConfig(block.tool) : sanitizeConfig;
 
