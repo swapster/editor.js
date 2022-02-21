@@ -6,7 +6,7 @@
  * if you cant to read more about how API works, please see docs
  */
 import Module from '../../__module';
-import { API as APIInterfaces, EditorConfig } from '../../../../types';
+import { API as APIInterfaces } from '../../../../types';
 import { ToolClass } from '../../tools/collection';
 
 /**
@@ -48,12 +48,5 @@ export default class API extends Module {
         i18n: this.Editor.I18nAPI.getMethodsForTool(tool),
       }
     ) as APIInterfaces;
-  }
-
-  /**
-   * Returns Editor configuration object
-   */
-  public get configObject(): EditorConfig {
-    return this.config;
   }
 }

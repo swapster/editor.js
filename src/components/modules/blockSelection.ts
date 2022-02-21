@@ -287,6 +287,7 @@ export default class BlockSelection extends Module {
    * @returns {Promise<void>}
    */
   public copySelectedBlocks(e: ClipboardEvent): Promise<void> {
+    const { sanitizer } = this.config;
     /**
      * Prevent default copy
      */
@@ -298,7 +299,12 @@ export default class BlockSelection extends Module {
       /**
        * Make <p> tag that holds clean HTML
        */
-      const cleanHTML = clean(block.holder.innerHTML, this.sanitizerConfig);
+      let cleanHTML = block.holder.innerHTML;
+
+      if (sanitizer !== false) {
+        cleanHTML = clean(cleanHTML, this.sanitizerConfig);
+      }
+
       const fragment = $.make('p');
 
       fragment.innerHTML = cleanHTML;
