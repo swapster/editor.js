@@ -23,6 +23,22 @@ function BlockAPI(
       return block.id;
     },
     /**
+     * Block's JSON data
+     *
+     * @returns {string}
+     */
+    get data(): Promise<BlockToolData> {
+      return block.data;
+    },
+    /**
+     * Current Tool`s input index
+     *
+     * @returns {number}
+     */
+    get currentInputIndex(): number {
+      return block.currentInputIndex;
+    },
+    /**
      * Tool name
      *
      * @returns {string}
@@ -83,6 +99,15 @@ function BlockAPI(
      */
     get stretched(): boolean {
       return block.stretched;
+    },
+
+    /**
+     * Update current input index with selection anchor node
+     *
+     * @returns {void}
+     */
+    updateCurrentInput(): void {
+      return block.updateCurrentInput();
     },
 
     /**

@@ -19,6 +19,7 @@ export default class CaretAPI extends Module {
       setToNextBlock: this.setToNextBlock,
       setToBlock: this.setToBlock,
       focus: this.focus,
+      insertContentAtCaretPosition: this.insertContentAtCaretPosition,
     };
   }
 
@@ -133,5 +134,16 @@ export default class CaretAPI extends Module {
     }
 
     return this.setToFirstBlock(this.Editor.Caret.positions.START);
+  }
+
+  /**
+   * Inserts passed content at caret position
+   *
+   * @param {string} content - content to insert
+   *
+   * @returns {void}
+   */
+  private insertContentAtCaretPosition = (content): void => {
+    return this.Editor.Caret.insertContentAtCaretPosition(content);
   }
 }

@@ -11,6 +11,25 @@ export interface BlockAPI {
   readonly id: string;
 
   /**
+   * Block unique identifier
+   */
+  readonly data: Promise<BlockToolData>;
+
+  /**
+   * Current Tool`s input index
+   *
+   * @returns {number}
+   */
+  readonly currentInputIndex: number;
+
+  /**
+   * Current Tool`s input index
+   *
+   * @returns {void}
+   */
+  updateCurrentInput(): void;
+
+  /**
    * Tool name
    */
   readonly name: string;

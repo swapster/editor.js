@@ -62,4 +62,13 @@ export interface Caret {
    * @return {boolean}
    */
   focus(atEnd?: boolean): boolean;
+
+  /**
+   * Inserts passed content at caret position
+   *
+   * @param {string} content - content to insert
+   *
+   * @returns {void}
+   */
+  insertContentAtCaretPosition(content: string): void;
 }

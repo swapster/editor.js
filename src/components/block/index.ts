@@ -309,6 +309,15 @@ export default class Block extends EventsDispatcher<BlockEvents> {
   }
 
   /**
+   * Return current Tool`s input index
+   *
+   * @returns {number}
+   */
+  public get currentInputIndex(): number {
+    return this.inputIndex;
+  }
+
+  /**
    * Return current Tool`s input
    *
    * @returns {HTMLElement}
